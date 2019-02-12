@@ -9,8 +9,9 @@ import 'mint-ui/lib/style.css'
 import './libs/mui/css/mui.min.css'
 // 导入app组件
 import app from './App.vue'
-
+// 修改
 // import router from './router'
+
 
 
 var vm = new Vue({
