@@ -6,6 +6,15 @@ import {Header,Swipe,SwipeItem} from 'mint-ui'
 Vue.component(Header.name,Header)
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+
+// 导入时间格式插件
+import moment from 'moment'
+// 定义全局的过滤器
+Vue.filter('dataFormat',function(dataStr,pattern="YYYY-MM-DD HH:mm:ss"){
+  return moment(dataStr).format(pattern)
+})
+
+
 // 导入mint-ui样式
 import 'mint-ui/lib/style.css'
 
@@ -17,6 +26,9 @@ import './libs/mui/css/icons-extra.css'
 import VueResource from 'vue-resource'
 // 安装vue-resource
 Vue.use(VueResource)
+
+// 设置vue-resource的请求根路径
+Vue.http.options.root = 'http://www.lovegf.cn:8899/api/';
 
 // 导入app组件
 import app from './App.vue'
