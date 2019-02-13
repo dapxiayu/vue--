@@ -5,6 +5,9 @@
     <mt-header fixed title="黑马程序员vue项目"></mt-header>
 
     <!-- 中部的路由router-view区域 -->
+    <transition>
+        <router-view></router-view>
+    </transition>
 
 
     <!-- 底部的Tabbar区域 -->
@@ -28,16 +31,34 @@
         <span class="mui-tab-label">搜索</span>
       </router-link>
     </nav>
-  <h1>123</h1>
   </div>
 </template>
 
 <script>
-
+export default {
+  name: "App"
+};
 </script>
 
-<style lang="css" scoped>
-  .app-container{
-    padding-top: 40px;
-  }
+<style>
+ .app-container {
+  padding-top: 40px;
+  padding-bottom: 50px;
+  overflow-x: hidden;
+}
+ .v-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.v-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+  position: absolute;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
 </style>
