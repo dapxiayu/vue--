@@ -2,17 +2,22 @@
 import Vue from 'vue'
 
 // 导入Mint-UI中的组件
-import {Header,Swipe,SwipeItem} from 'mint-ui'
+import {Header,Swipe,SwipeItem,Button} from 'mint-ui'
 Vue.component(Header.name,Header)
 Vue.component(Swipe.name, Swipe);
 Vue.component(SwipeItem.name, SwipeItem);
+Vue.component(Button.name, Button);
 
 // 导入时间格式插件
 import moment from 'moment'
+
 // 定义全局的过滤器
 Vue.filter('dataFormat',function(dataStr,pattern="YYYY-MM-DD HH:mm:ss"){
   return moment(dataStr).format(pattern)
 })
+// 全局注册组件
+import comment from './components/comment.vue'
+Vue.component('comment', comment)
 
 
 // 导入mint-ui样式
