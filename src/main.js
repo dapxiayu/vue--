@@ -2,14 +2,23 @@
 import Vue from 'vue'
 
 // 导入Mint-UI中的组件
-import {Header,Swipe,SwipeItem,Button} from 'mint-ui'
-Vue.component(Header.name,Header)
-Vue.component(Swipe.name, Swipe);
-Vue.component(SwipeItem.name, SwipeItem);
-Vue.component(Button.name, Button);
-
+// import {Header,Swipe,SwipeItem,Button} from 'mint-ui'
+// Vue.component(Header.name,Header)
+// Vue.component(Swipe.name, Swipe);
+// Vue.component(SwipeItem.name, SwipeItem);
+// Vue.component(Button.name, Button);
+import MintUI from 'mint-ui'
+// 导入mint-ui样式
+import 'mint-ui/lib/style.css'
+Vue.use(MintUI)
 // 导入时间格式插件
 import moment from 'moment'
+
+// 安装vue-pic-preview图片预览插件
+import VuePreview from 'vue-pic-preview'
+Vue.use(VuePreview)
+
+  
 
 // 定义全局的过滤器
 Vue.filter('dataFormat',function(dataStr,pattern="YYYY-MM-DD HH:mm:ss"){
@@ -19,9 +28,6 @@ Vue.filter('dataFormat',function(dataStr,pattern="YYYY-MM-DD HH:mm:ss"){
 import comment from './components/comment.vue'
 Vue.component('comment', comment)
 
-
-// 导入mint-ui样式
-import 'mint-ui/lib/style.css'
 
 // 导入mui样式
 import './libs/mui/css/mui.min.css'
