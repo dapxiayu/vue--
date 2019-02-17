@@ -1,8 +1,8 @@
 <template>
   <div class="goodsInfo-container">
-    <!-- <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+    <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
       <div class="ball" v-show="ballFlag" ref="ball"></div>
-    </transition> -->
+    </transition>
 
     <!-- 商品轮播图区域 -->
     <div class="mui-card">
@@ -18,17 +18,18 @@
       <div class="mui-card-header">{{ goodsInfo.title }}</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <p class="price">市场价：
+          <p class="price">
+            市场价：
             <del>￥{{ goodsInfo.market_price }}</del>&nbsp;&nbsp;销售价：
             <span class="now_price">￥{{ goodsInfo.sell_price }}</span>
           </p>
           <div class="numbox">
             <span class="title">购买数量：</span>
-            <input 
-            @click="buyCount >= 2 && buyCount--" 
-            type="button" 
-            value="-"
-            :disabled="buyCount == 1"
+            <input
+              @click="buyCount >= 2 && buyCount--"
+              type="button"
+              value="-"
+              :disabled="buyCount == 1"
             >
             <input @change="filterMaxCount" v-model="buyCount" type="number">
             <input
@@ -58,7 +59,7 @@
         <div class="mui-card-content-inner">
           <p>商品货号：{{ goodsInfo.goods_no }}</p>
           <p>库存情况：{{ goodsInfo.stock_quantity }}件</p>
-          <p>上架时间：{{ goodsInfo.add_time | dateFormat }}</p>
+          <p>上架时间：{{ goodsInfo.add_time | dataFormat }}</p>
         </div>
       </div>
       <div class="mui-card-footer">
@@ -79,7 +80,7 @@ export default {
       id: this.$route.params.id, // 将路由参数对象中的 id 挂载到 data , 方便后期调用
       lunbotu: [], // 轮播图的数据
       goodsInfo: {}, // 获取到的商品的信息
-     
+      ballFlag: false,
       selectedCount: 1, // 保存用户选中的商品数量， 默认，认为用户买1个
       buyCount: 1
     };
@@ -124,8 +125,47 @@ export default {
       // this.$router.push({ path: "/home/goodscomment/" + id });
       this.$router.push("/home/goodsComment/" + id);
     },
-    
-   
+    addToShopCar() {
+      // 添加到购物车
+      this.ballFlag = !this.ballFlag;
+    },
+    beforeEnter(el) {
+      el.style.transform = "translate(0, 0)";
+    },
+    // 开始执行动画后的钩子函数
+    enter(el, done) {
+      // 就是得加   offsetHeight
+      el.offsetWidth;
+
+      // 小球动画优化思路：
+      // 1. 先分析导致 动画 不准确的 本质原因： 我们把 小球 最终 位移到的 位置，已经局限在了某一分辨率下的 滚动条未滚动的情况下；
+      // 2. 只要分辨率和 测试的时候不一样，或者 滚动条有一定的滚动距离之后， 问题就出现了；
+      // 3. 因此，我们经过分析，得到结论： 不能把 位置的 横纵坐标 直接写死了，而是应该 根据不同情况，动态计算这个坐标值；
+      // 4. 经过分析，得出解题思路： 先得到 徽标的 横纵 坐标，再得到 小球的 横纵坐标，然后 让 y 值 求差， x 值也求 差，得到 的结果，就是横纵坐标要位移的距离
+      // 5. 如何 获取 徽标和小球的 位置？？？   domObject.getBoundingClientRect()
+
+      // 获取小球的 在页面中的位置
+      const ballPosition = this.$refs.ball.getBoundingClientRect();
+      // 获取 徽标 在页面中的位置
+      const badgePosition = document
+        .getElementById("badge")
+        .getBoundingClientRect();
+
+      const xDist = badgePosition.left - ballPosition.left;
+      const yDist = badgePosition.top - ballPosition.top;
+
+      el.style.transform = `translate(${xDist}px, ${yDist}px)`;
+      el.style.transition = "all 0.5s cubic-bezier(.4,-0.3,1,.68)";
+      done();
+    },
+    // 动画执行完毕后的钩子函数
+    afterEnter(el) {
+      this.ballFlag = !this.ballFlag;
+    },
+    getSelectedCount(count) {
+      // 当子组件把 选中的数量传递给父组件的时候，把选中的值保存到 data 上
+      this.selectedCount = count;
+    }
   }
 };
 </script>
@@ -168,15 +208,15 @@ export default {
     }
   }
 
-//   .ball {
-//     width: 15px;
-//     height: 15px;
-//     border-radius: 50%;
-//     background-color: red;
-//     position: absolute;
-//     z-index: 99;
-//     top: 390px;
-//     left: 146px;
-//   }
+  .ball {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: red;
+    position: absolute;
+    z-index: 99;
+    top: 390px;
+    left: 146px;
+  }
 }
 </style>
