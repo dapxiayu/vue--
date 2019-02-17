@@ -61,7 +61,7 @@ export default {
   transition: all 0.5s ease;
 }
 
-// 改类名
+/* 改类名 */
 .mui-bar-tab .mui-tab-item-dsp.mui-active {
     color: #007aff;
 }

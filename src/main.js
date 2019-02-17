@@ -14,6 +14,9 @@ Vue.use(MintUI)
 // 导入时间格式插件
 import moment from 'moment'
 
+import swiper from './components/swiper.vue'
+Vue.component('swiper', swiper)
+
 // 安装vue-pic-preview图片预览插件
 import VuePreview from 'vue-pic-preview'
 Vue.use(VuePreview)

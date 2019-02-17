@@ -14,9 +14,9 @@
                     <span>剩{{ item.stock_quantity }}件</span>
                 </p>
             </div>
-            <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
+          
         </div>          
-
+          <mt-button type="danger" size="large" @click="getMore">加载更多</mt-button>
     </div>
 </template>
 
@@ -44,6 +44,9 @@ export default {
       this.pageindex++;
       this.getGoodsList();
     },
+     goDetail(id){
+       this.$router.push('/home/goodsInfo/' + id)
+     }
   }
 }
 </script>
