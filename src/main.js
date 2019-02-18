@@ -21,6 +21,21 @@ Vue.component('swiper', swiper)
 import VuePreview from 'vue-pic-preview'
 Vue.use(VuePreview)
 
+// 注册vuex 
+import Vuex from 'vuex'
+Vue.use(Vuex)
+
+var store = new Vuex.Store({
+  state:{
+
+  },
+  mutations:{
+
+  },
+  getters:{
+
+  }
+})
   
 
 // 定义全局的过滤器
@@ -60,5 +75,6 @@ var vm = new Vue({
   el: '#app',
   router,
   render:c=>c(app),
-  
+  // router,
+  store
 })
