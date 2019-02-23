@@ -1,32 +1,33 @@
 <template>
-   <div>
-        <mt-swipe :auto="4000">
+  <div>
+    <mt-swipe :auto="4000">
       <mt-swipe-item v-for="(item, index) in banners" :key="index">
         <a :href="item.url">
-           <img :class="{ full: fullscreen }" :src="item.img || item.src">
- 
+          <img :class="{ full: fullscreen }" :src="item.img || item.src">
         </a>
       </mt-swipe-item>
     </mt-swipe>
-
-   </div>
+  </div>
 </template>
-
 
 <script>
 export default {
-      props: ['banners', 'fullscreen']
+  // 如果没有传入 应该是undefined
+  props: ['banners', 'fullscreen']
 }
 </script>
 
-<style lang="less">
-     .mint-swipe {
-    height: 200px;
-    .mint-swipe-item {
-      img {
-        width: 100%;
-        height: 100%;
-      }
+<style lang="less" scoped>
+.mint-swipe {
+  height: 200px;
+  .mint-swipe-item {
+    text-align: center;
+    img {
+      height: 100%;
+    }
+    img.full {
+      width: 100%;
     }
   }
+}
 </style>

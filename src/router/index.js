@@ -1,11 +1,11 @@
-import VueRouter from 'vue-router'
 import Vue from 'vue'
-
-// 导入对应的路由组件
-import HomeContainer from '../pages/home'
-import MemberContainer from '../pages/menmber'
-import ShopcarContainer from '../pages/shopcar'
-import SearchContainer from '../pages/search'
+import Router from 'vue-router'
+// @就是src目录
+// import HelloWorld from '@/components/HelloWorld'
+import homeComponent from '../pages/home'
+import memberComponent from '../pages/member'
+import shopcarComponent from '../pages/shopcar'
+import searchComponent from '../pages/search'
 import newsListComponent from '../pages/newsList'
 import newsInfoComponent from '../pages/newsInfo'
 import photoListComponent from '../pages/photoList'
@@ -15,66 +15,29 @@ import goodsInfoComponent from '../pages/goodsInfo'
 import goodsDescComponent from '../pages/goodsDesc'
 import goodsCommentComponent from '../pages/goodsComment'
 
+Vue.use(Router)
 
-Vue.use(VueRouter)
-
-var router = new VueRouter({
-  routes: [{
-      path: '/',
-      redirect: '/home'
-    },
-    {
-      path: '/home',
-      component: HomeContainer
-    },
-    {
-      path: '/member',
-      component: MemberContainer
-    },
-    {
-      path: '/shopcar',
-      component: ShopcarContainer
-    },
-    {
-      path: '/search',
-      component: SearchContainer
-    },
-    {
-      path: '/home/newsList',
-      component: newsListComponent
-    },
-    {
-      path: '/home/newsInfo/:id',
-      component: newsInfoComponent
-    },
-    {
-      path: '/home/photoList',
-      component: photoListComponent
-    },
-    {
-      path: '/home/photoInfo/:id',
-      component: photoInfoComponent
-    },
-    {
-      path: '/home/goodsList',
-      component: goodsListComponent
-    },
-    {
-      path: '/home/goodsInfo/:id',
-      component: goodsInfoComponent
-    },
-    {
-      path: '/home/goodsDesc/:id',
-      component: goodsDescComponent
-    },
-    {
-      path: '/home/goodsComment/:id',
-      component: goodsCommentComponent
-    },
+export default new Router({
+  routes: [ // 路由的匹配规则
+    { path: '/', redirect: '/home' },
+    { path: '/home', component: homeComponent },
+    { path: '/member', component: memberComponent },
+    { path: '/shopcar', component: shopcarComponent },
+    { path: '/search', component: searchComponent },
+    { path: '/home/newsList', component: newsListComponent },
+    { path: '/home/newsInfo/:id', component: newsInfoComponent },
+    { path: '/home/photoList', component: photoListComponent },
+    { path: '/home/photoInfo/:id', component: photoInfoComponent },
+    { path: '/home/goodsList', component: goodsListComponent },
+    { path: '/home/goodsInfo/:id', component: goodsInfoComponent },
+    { path: '/home/goodsDesc/:id', component: goodsDescComponent },
+    { path: '/home/goodsComment/:id', component: goodsCommentComponent },
+    // {
+    //   // 当用户访问 / 目录时  会在App.vue的router-view组件的地方显示HelloWorld组件
+    //   path: '/',
+    //   name: 'HelloWorld',
+    //   component: HelloWorld
+    // }
   ],
-  linkActiveClass: 'mui-active'
-
+  linkActiveClass: 'mui-active' // 类库
 })
-
-//把路由对象暴露出去
-export default router

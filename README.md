@@ -1,6 +1,6 @@
-# vue-cli-demo
+# vue-cms23
 
-> 
+> A Vue.js project
 
 ## Build Setup
 

@@ -2,13 +2,13 @@
   <div class="news-list-container">
     <ul class="mui-table-view">
       <li class="mui-table-view-cell mui-media" v-for="item in newsList" :key="item.id">
-        <router-link :to="'/home/newsInfo/'+item.id">
+        <router-link :to="'/home/newsInfo/' + item.id">
           <img class="mui-media-object mui-pull-left" :src="item.img_url">
           <div class="mui-media-body">
-            <h1>{{item.title}}</h1>
+            <h1>{{ item.title }}</h1>
             <p class="mui-ellipsis">
-                <span>发表时间：{{item.add_time|dataFormat}}</span>
-              <span>点击: {{item.click}}次</span>
+              <span>发表时间：{{ item.add_time | dateFormat  }}</span>
+              <span>点击：{{item.click}}次</span>
             </p>
           </div>
         </router-link>
@@ -29,11 +29,18 @@ export default {
   },
   methods: {
     getNewsList() {
-      this.$http.get("getNewsList").then(result => {
+      // 发送ajax请求  获取新闻列表数据
+      // vue-resource
+      this.$http.get("getnewslist").then(result => {
         this.newsList = result.body.message;
       });
     }
-  }
+  },
+  // filters: {
+  //   dateFormat(msg) {
+  //     return 
+  //   }
+  // }
 };
 </script>
 

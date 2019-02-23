@@ -8,7 +8,8 @@
         </a>
       </mt-swipe-item>
     </mt-swipe> -->
-     <swiper :banners="banners" :fullscreen="true"></swiper>
+
+    <swiper :banners="banners" :fullscreen="true"></swiper>
 
     <!-- 九宫格 -->
     <ul class="mui-table-view mui-grid-view mui-grid-9">
@@ -52,7 +53,6 @@
   </div>
 </template>
 
-
 <script>
 export default {
   data() {
@@ -65,14 +65,12 @@ export default {
   },
   methods: {
     getBanner() {
-      this.$http.get("http://www.lovegf.cn:8899/api/getlunbo").then(result => {
+      this.$http.get("getlunbo").then(result => {
         this.banners = result.body.message;
       });
     }
-  },
- 
+  }
 };
-
 </script>
 
 <style lang="less">

@@ -1,5 +1,5 @@
 <template>
-  <div class="goodsInfo-container">
+  <div class="goodsinfo-container">
     <transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
       <div class="ball" v-show="ballFlag" ref="ball"></div>
     </transition>
@@ -15,36 +15,35 @@
 
     <!-- 商品购买区域 -->
     <div class="mui-card">
-      <div class="mui-card-header">{{ goodsInfo.title }}</div>
+      <div class="mui-card-header">{{ goodsinfo.title }}</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <p class="price">
-            市场价：
-            <del>￥{{ goodsInfo.market_price }}</del>&nbsp;&nbsp;销售价：
-            <span class="now_price">￥{{ goodsInfo.sell_price }}</span>
+          <p class="price">市场价：
+            <del>￥{{ goodsinfo.market_price }}</del>&nbsp;&nbsp;销售价：
+            <span class="now_price">￥{{ goodsinfo.sell_price }}</span>
           </p>
           <div class="numbox">
             <span class="title">购买数量：</span>
-            <input
-              @click="buyCount >= 2 && buyCount--"
-              type="button"
-              value="-"
-              :disabled="buyCount == 1"
+            <input 
+            @click="buyCount >= 2 && buyCount--" 
+            type="button" 
+            value="-"
+            :disabled="buyCount == 1"
             >
             <input @change="filterMaxCount" v-model="buyCount" type="number">
             <input
-              @click="buyCount < goodsInfo.stock_quantity && buyCount++"
+              @click="buyCount < goodsinfo.stock_quantity && buyCount++"
               type="button"
               value="+"
-              :disabled="buyCount == goodsInfo.stock_quantity"
+              :disabled="buyCount == goodsinfo.stock_quantity"
             >
           </div>
           <p>
             <mt-button type="primary" size="small">立即购买</mt-button>
             <mt-button type="danger" size="small" @click="addToShopCar">加入购物车</mt-button>
             <!-- 分析： 如何实现加入购物车时候，拿到 选择的数量 -->
-            <!-- 1. 经过分析发现： 按钮属于 goodsInfo 页面， 数字 属于 numberbox 组件 -->
-            <!-- 2. 由于涉及到了父子组件的嵌套了，所以，无法直接在 goodsInfo 页面zhong 中获取到 选中的商品数量值-->
+            <!-- 1. 经过分析发现： 按钮属于 goodsinfo 页面， 数字 属于 numberbox 组件 -->
+            <!-- 2. 由于涉及到了父子组件的嵌套了，所以，无法直接在 goodsinfo 页面zhong 中获取到 选中的商品数量值-->
             <!-- 3. 怎么解决这个问题：涉及到了 子组件向父组件传值了（事件调用机制） -->
             <!-- 4. 事件调用的本质： 父向子传递方法，子调用这个方法， 同时把 数据当作参数 传递给这个方法 -->
           </p>
@@ -57,9 +56,9 @@
       <div class="mui-card-header">商品参数</div>
       <div class="mui-card-content">
         <div class="mui-card-content-inner">
-          <p>商品货号：{{ goodsInfo.goods_no }}</p>
-          <p>库存情况：{{ goodsInfo.stock_quantity }}件</p>
-          <p>上架时间：{{ goodsInfo.add_time | dataFormat }}</p>
+          <p>商品货号：{{ goodsinfo.goods_no }}</p>
+          <p>库存情况：{{ goodsinfo.stock_quantity }}件</p>
+          <p>上架时间：{{ goodsinfo.add_time | dateFormat }}</p>
         </div>
       </div>
       <div class="mui-card-footer">
@@ -79,15 +78,15 @@ export default {
     return {
       id: this.$route.params.id, // 将路由参数对象中的 id 挂载到 data , 方便后期调用
       lunbotu: [], // 轮播图的数据
-      goodsInfo: {}, // 获取到的商品的信息
-      ballFlag: false,
+      goodsinfo: {}, // 获取到的商品的信息
+      ballFlag: false, // 控制小球的隐藏和显示的标识符
       selectedCount: 1, // 保存用户选中的商品数量， 默认，认为用户买1个
       buyCount: 1
     };
   },
   created() {
     this.getLunbotu();
-    this.getgoodsInfo();
+    this.getGoodsInfo();
   },
   methods: {
     getLunbotu() {
@@ -101,18 +100,18 @@ export default {
         }
       });
     },
-    getgoodsInfo() {
+    getGoodsInfo() {
       // 获取商品的信息
       this.$http.get("goods/getinfo/" + this.id).then(result => {
         if (result.body.status === 0) {
-          this.goodsInfo = result.body.message[0];
+          this.goodsinfo = result.body.message[0];
         }
       });
     },
     filterMaxCount() {
       // console.log("我被改了,现在最新的值是:" + this.buyCount);
-      if (this.buyCount > this.goodsInfo.stock_quantity) {
-        this.buyCount = this.goodsInfo.stock_quantity;
+      if (this.buyCount > this.goodsinfo.stock_quantity) {
+        this.buyCount = this.goodsinfo.stock_quantity;
       }
     },
     goDesc(id) {
@@ -128,7 +127,14 @@ export default {
     addToShopCar() {
       // 添加到购物车
       this.ballFlag = !this.ballFlag;
+      this.$store.commit('addToCar', {
+        id: this.goodsinfo.id,
+        count: this.buyCount,
+        price: this.goodsinfo.sell_price,
+        selected: true
+      })
     },
+    // 开始执行动画之前所执行的钩子函数
     beforeEnter(el) {
       el.style.transform = "translate(0, 0)";
     },
@@ -171,7 +177,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.goodsInfo-container {
+.goodsinfo-container {
   background-color: #eee;
   overflow: hidden;
 

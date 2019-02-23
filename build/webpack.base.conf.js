@@ -5,6 +5,8 @@ const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
 function resolve (dir) {
+  // build目录  ..  -> 项目根目录
+  // 项目根目录  src  -> 项目根目录下的src目录的绝对路径
   return path.join(__dirname, '..', dir)
 }
 
@@ -24,8 +26,10 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+    // 以前起别名?  当时由于vue文件引入的是runtime-only的模式, 无法直接使用组件
+    // 所以起别名  让其默认引入完整版本的vue.js
+    // 这种方式并不推荐, 最推荐的还是使用render函数
+    alias: { // 别名 
       '@': resolve('src'),
     }
   },
@@ -64,6 +68,10 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+          test: /vue-preview.src.*?js$/,
+          loader: 'babel'
       }
     ]
   },
